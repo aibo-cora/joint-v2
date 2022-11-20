@@ -8,4 +8,8 @@ final class JointTests: XCTestCase {
         // results.
         XCTAssertEqual(Joint().text, "Hello, World!")
     }
+    
+    func testServerConnection() throws {
+        
+    }
 }
