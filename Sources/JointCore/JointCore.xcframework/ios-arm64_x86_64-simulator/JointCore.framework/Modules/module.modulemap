@@ -1,0 +1,11 @@
+framework module JointCore {
+  umbrella header "JointCore.h"
+
+  export *
+  module * { export * }
+}
+
+module JointCore.Swift {
+  header "JointCore-Swift.h"
+  requires objc
+}
