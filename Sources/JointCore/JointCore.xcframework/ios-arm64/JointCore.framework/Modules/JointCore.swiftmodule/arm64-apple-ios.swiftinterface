@@ -1,0 +1,32 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name JointCore
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFoundation
+import Combine
+import CoreMedia
+import Foundation
+@_exported import JointCore
+import Swift
+import VideoToolbox
+import _Concurrency
+import _StringProcessing
+final public class Bond : Foundation.ObservableObject {
+  @Combine.Published @_projectedValueProperty($data) final public var data: Foundation.Data {
+    get
+  }
+  final public var $data: Combine.Published<Foundation.Data>.Publisher {
+    get
+  }
+  @Combine.Published @_projectedValueProperty($sampleBuffer) final public var sampleBuffer: CoreMedia.CMSampleBuffer? {
+    get
+  }
+  final public var $sampleBuffer: Combine.Published<CoreMedia.CMSampleBuffer?>.Publisher {
+    get
+  }
+  public init(cameraOutput: AVFoundation.AVCaptureVideoDataOutput, audioPipeline: Combine.PassthroughSubject<AVFAudio.AVAudioPCMBuffer, Swift.Never>)
+  final public func start()
+  final public func stop()
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
