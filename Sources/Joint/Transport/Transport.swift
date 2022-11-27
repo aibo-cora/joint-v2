@@ -40,8 +40,10 @@ public struct Message: Payload {
 }
 
 final class Transport: ObservableObject {
-    @Published var receiving = PassthroughSubject<Message, Never>()
-    @Published var error = CurrentValueSubject<TransportError, Never>(.none)
+    @Published var receiving: Message = .init(source: "", data: Data())
+    @Published var error: TransportError = .none
+    
+    private var subscriptions = [AnyCancellable]()
     /// Transport layer.
     /// - Parameter method: Choose how to transport data.
     init(using method: TransportMethod) {
@@ -49,6 +51,19 @@ final class Transport: ObservableObject {
         case .MQTT (let server):
             self.layer = MQTT(server: server)
         }
+        
+        layer.error
+            .dropFirst()
+            .sink { error in
+                self.error = error
+            }
+            .store(in: &subscriptions)
+        layer.receiving
+            .dropFirst()
+            .sink { message in
+                self.receiving = message
+            }
+            .store(in: &subscriptions)
     }
     
     /// Connect to the server.
