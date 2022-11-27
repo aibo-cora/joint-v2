@@ -18,17 +18,18 @@ public final class JointSession: ObservableObject {
     @Published public var incoming: Message?
     
     @Published public var transportError: TransportError = .none
+    // @Published public var bufferError: BufferError = .none
     
     private let transport: Transport
-    private let bond: Bond
+    private let core: Bond
     
     private var subscriptions = [AnyCancellable]()
     
     public init(datasource source: String, using method: TransportMethod, video: AVCaptureVideoDataOutput, audio: PassthroughSubject<AVAudioPCMBuffer, Never>) {
         transport = Transport(using: method)
-        bond = Bond(cameraOutput: video, audioPipeline: audio)
+        core = Bond(cameraOutput: video, audioPipeline: audio)
         
-        bond.$data
+        core.$data
             .sink { data in
                 let message = Message(source: source, data: data)
                 
@@ -36,7 +37,7 @@ public final class JointSession: ObservableObject {
                 self.outgoing = message
             }
             .store(in: &subscriptions)
-        bond.$sampleBuffer
+        core.$sampleBuffer
             .sink { buffer in
                 self.sampleBuffer = buffer
             }
@@ -74,11 +75,11 @@ public final class JointSession: ObservableObject {
     // MARK: Bond
     /// Start capturing video and audio buffers to be transported.
     public func start() {
-        bond.start()
+        core.start()
     }
     
     /// Stop capturing buffers.
     public func stop() {
-        bond.stop()
+        core.stop()
     }
 }
