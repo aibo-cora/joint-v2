@@ -10,7 +10,9 @@ This package is meant to give developers control over data in applications with 
 
 <h5>Requirements: <code>iOS 13.0</code></h5>
 
-<b>Usage</b><br>
+<h3>Usage</h3>
+
+<b>1. Init</b><br>
 The package uses several required pieces of information for initialization:<br>
 ```swift
     let session = JointSession(...)
@@ -49,17 +51,24 @@ When you setup a type that conforms to the <code>Server</code> protocol, you wil
 
 <br><br>
 
-<b>Starting a session</b>
+<b>2. Connecting for a server</b>
 <br><br>
 After initializing a <code>JointSession</code> object, you are able to connect to the server using:
 ```swift
   public func connect() { }
 ```
-Observe the <code>status</code> property of the object to make sure the client is connected to the server. Once connected, you can start the session:
+Observe the <code>status</code> property of the object to make sure the client is connected to the server.
+
+<br><br>
+
+<b>3. Starting session</b>
+Once connected, you can start the session:
 ```swift
   public func start() { }
 ```
-At this point, the data transfer will begin.
+It is important to note that starting a session is possible without first connecting to a server. If this is the case, the framework will begin constructing binary data, but it will not be transported.
+<br>Connecting to a server will begin the transport.
+
 <br><br><br>
 <code>disconnect(), stop()</code> are available respectively.
   
