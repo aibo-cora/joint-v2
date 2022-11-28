@@ -13,6 +13,7 @@ extension Transport {
     final class MQTT: NSObject, TransportLayer, MQTTSessionDelegate {
         let error = CurrentValueSubject<TransportError, Never>(.none)
         let receiving = PassthroughSubject<Message, Never>()
+        let status = PassthroughSubject<TransportStatus, Never>()
         
         private let transport = MQTTCFSocketTransport()
         private let session = MQTTSession()
@@ -73,6 +74,7 @@ extension Transport {
                 if let error {
                     self.error.send(.disconnecting(error, .warning))
                 }
+                self.status.send(.disconnected)
             })
         }
         
@@ -81,22 +83,27 @@ extension Transport {
         func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
             NSLog("Event=\(eventCode.rawValue) coming from \(String(describing: transport.host)):\(transport.port)")
             
+            let error: TransportError
             switch eventCode {
             case .connected:
-                break
+                self.error.send(.none)
+                self.status.send(.connected)
+                return
             case .connectionClosed:
-                self.error.send(.connecting("MQTT Client: Connection Closed", .critial))
+                error = .connecting("MQTT Client: Connection Closed", .critial)
             case .connectionClosedByBroker:
-                self.error.send(.connecting("MQTT Client: Connection Closed by Broker", .critial))
+                error = .connecting("MQTT Client: Connection Closed by Broker", .critial)
             case .connectionError:
-                self.error.send(.connecting("MQTT Client: Connection Error", .critial))
+                error = .connecting("MQTT Client: Connection Error", .critial)
             case .connectionRefused:
-                self.error.send(.connecting("MQTT Client: Connection Refused", .critial))
+                error = .connecting("MQTT Client: Connection Refused", .critial)
             case .protocolError:
-                self.error.send(.connecting("MQTT Client: Protocol Error", .critial))
+                error = .connecting("MQTT Client: Protocol Error", .critial)
             default:
-                break
+                return
             }
+            self.status.send(.failed)
+            self.error.send(error)
         }
         
         func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
