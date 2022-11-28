@@ -17,7 +17,6 @@ protocol TransportLayer: ObservableObject {
     
     var receiving: PassthroughSubject<Message, Never> { get }
     var error: CurrentValueSubject<TransportError, Never> { get }
-    var status: PassthroughSubject<TransportStatus, Never> { get }
 }
 
 /// Data transport methods.
@@ -36,10 +35,6 @@ public enum TransportError: Error {
     }
 }
 
-public enum TransportStatus {
-    case disconnected, connected, failed
-}
-
 /// The source and contents of a message being transported.
 public struct Message: Payload {
     var source: String
@@ -49,7 +44,6 @@ public struct Message: Payload {
 final class Transport: ObservableObject {
     @Published var receiving: Message = .init(source: "", data: Data())
     @Published var error: TransportError = .none
-    @Published var status: TransportStatus = .disconnected
     
     private var subscriptions = [AnyCancellable]()
     /// Transport layer.
@@ -70,11 +64,6 @@ final class Transport: ObservableObject {
             .dropFirst()
             .sink { message in
                 self.receiving = message
-            }
-            .store(in: &subscriptions)
-        layer.status
-            .sink { status in
-                self.status = status
             }
             .store(in: &subscriptions)
     }
