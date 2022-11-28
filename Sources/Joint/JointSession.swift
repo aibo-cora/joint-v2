@@ -18,7 +18,6 @@ public final class JointSession: ObservableObject {
     @Published public var incoming: Message?
     
     @Published public var transportError: TransportError = .none
-    @Published public var transportStatus: TransportStatus = .disconnected
     // @Published public var bufferError: BufferError = .none
     
     private let transport: Transport
@@ -44,11 +43,6 @@ public final class JointSession: ObservableObject {
             }
             .store(in: &subscriptions)
         
-        transport.$status
-            .sink { status in
-                self.transportStatus = status
-            }
-            .store(in: &subscriptions)
         transport.$error
             .sink { error in
                 self.transportError = error
@@ -80,9 +74,8 @@ public final class JointSession: ObservableObject {
     }
     // MARK: Bond
     /// Start capturing video and audio buffers to be transported.
-    public func start() throws {
-        if self.transportStatus == .connected { core.start() }
-        else { throw TransportError.connecting("Error: Cannot start session - Transport not connected to server.", .critial) }
+    public func start() {
+        core.start()
     }
     
     /// Stop capturing buffers.
