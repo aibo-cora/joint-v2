@@ -68,14 +68,6 @@ extension Transport {
             }
         }
         
-        func disconnect() {
-            session?.close(disconnectHandler: { error in
-                if let error {
-                    self.error.send(.disconnecting(error, .warning))
-                }
-            })
-        }
-        
         // MARK: - MQTTSessionDelegate
         
         func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
