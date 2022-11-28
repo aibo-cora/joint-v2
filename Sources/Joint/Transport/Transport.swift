@@ -13,7 +13,6 @@ protocol TransportLayer: ObservableObject {
     func publish(message: Message)
     func open(channels: [String])
     func close(channels: [String])
-    func disconnect()
     
     var receiving: PassthroughSubject<Message, Never> { get }
     var error: CurrentValueSubject<TransportError, Never> { get }
@@ -28,7 +27,6 @@ public enum TransportError: Error {
     case opening(String, Error, SeverityLevel)
     case closing(String, Error, SeverityLevel)
     case connecting(String, SeverityLevel)
-    case disconnecting(Error, SeverityLevel)
     
     public enum SeverityLevel {
         case discardable, warning, critial
@@ -79,12 +77,8 @@ final class Transport: ObservableObject {
     
     /// Open and close links.
     func updateLinks(subscribeTo: [String], unsubscribeFrom: [String]) {
-        layer.open(channels: subscribeTo)
-        layer.close(channels: unsubscribeFrom)
-    }
-    
-    func disconnect() {
-        layer.disconnect()
+        self.layer.open(channels: subscribeTo)
+        self.layer.close(channels: unsubscribeFrom)
     }
     
     let layer: any TransportLayer
