@@ -80,9 +80,8 @@ public final class JointSession: ObservableObject {
     }
     // MARK: Bond
     /// Start capturing video and audio buffers to be transported.
-    public func start() throws {
-        if self.transportStatus == .connected { core.start() }
-        else { throw TransportError.connecting("Error: Cannot start session - Transport not connected to server.", .critial) }
+    public func start() {
+        core.start()
     }
     
     /// Stop capturing buffers.
