@@ -34,7 +34,7 @@ The package uses several required pieces of information for initialization:<br>
 public enum TransportMethod { case MQTT(Server) }
 ```
 MQTT is the first method being added to transport data. There are several MQTT brokers available to choose from. Here is an article listing some with <a href="https://muetsch.io/basic-benchmarks-of-5-different-mqtt-brokers.html">benchmarks.</a>
-<br>Some of them offer brokers for development purposes <a href="https://console.hivemq.cloud/">free</a> of charge and AWS images to run production grade servers.
+<br>Some of them offer brokers for development purposes <a href="https://console.hivemq.cloud/">HiveMQ</a>, <a href="https://mosquitto.org/">Mosquitto</a> of charge and AWS images to run production grade servers.
 <br>
 ```swift
 public protocol Server: Endpoint, Credentials { }
