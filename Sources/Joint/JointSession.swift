@@ -78,9 +78,16 @@ public final class JointSession: ObservableObject {
     public func disconnect() {
         transport.disconnect()
     }
-    // MARK: Bond
+    
+    // MARK: Core
+    
     /// Start capturing video and audio buffers to be transported.
+<<<<<<< Updated upstream
+
     public func start() {
+=======
+    public func start() throws {
+>>>>>>> Stashed changes
         core.start()
     }
     
