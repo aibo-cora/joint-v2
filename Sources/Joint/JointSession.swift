@@ -19,7 +19,6 @@ public final class JointSession: ObservableObject {
     
     @Published public var transportError: TransportError = .none
     @Published public var transportStatus: TransportStatus = .disconnected
-    // @Published public var bufferError: BufferError = .none
     
     private let transport: Transport
     private let core: Bond
@@ -82,12 +81,7 @@ public final class JointSession: ObservableObject {
     // MARK: Core
     
     /// Start capturing video and audio buffers to be transported.
-<<<<<<< Updated upstream
-
     public func start() {
-=======
-    public func start() throws {
->>>>>>> Stashed changes
         core.start()
     }
     
