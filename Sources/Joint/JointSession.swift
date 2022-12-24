@@ -21,6 +21,7 @@ public final class JointSession: ObservableObject {
     @Published public var transportStatus: TransportStatus = .disconnected
     
     private let transport: Transport
+    private var transporting: Bool = false
     private let core: Bond
     
     private var subscriptions = [AnyCancellable]()
@@ -31,10 +32,12 @@ public final class JointSession: ObservableObject {
         
         core.$data
             .sink { data in
-                let message = Message(source: source, data: data)
-                
-                self.transport.publish(message: message)
-                self.outgoing = message
+                if self.transporting {
+                    let message = Message(source: source, data: data)
+                    
+                    self.transport.publish(message: message)
+                    self.outgoing = message
+                }
             }
             .store(in: &subscriptions)
         core.$sampleBuffer
@@ -42,7 +45,7 @@ public final class JointSession: ObservableObject {
                 self.sampleBuffer = buffer
             }
             .store(in: &subscriptions)
-        
+        ///
         transport.$status
             .sink { status in
                 self.transportStatus = status
@@ -60,7 +63,7 @@ public final class JointSession: ObservableObject {
             .store(in: &subscriptions)
     }
     // MARK: Transport
-    /// Connect to the server.
+    /// Connect to the server and start the transport pipelines.
     public func connect() {
         transport.connect()
     }
@@ -73,6 +76,12 @@ public final class JointSession: ObservableObject {
         transport.updateLinks(subscribeTo: subscribeTo, unsubscribeFrom: unsubscribeFrom)
     }
     
+    /// Open and close the transport gate.
+    /// - Parameter enabled: Flag.
+    public func transport(enabled: Bool) {
+        transporting = enabled
+    }
+    
     /// Disconnect from the server and close the session.
     public func disconnect() {
         transport.disconnect()
@@ -80,13 +89,13 @@ public final class JointSession: ObservableObject {
     
     // MARK: Core
     
-    /// Start capturing video and audio buffers to be transported.
-    public func start() {
+    /// Start capturing video and audio buffers.
+    public func startCapture() {
         core.start()
     }
     
     /// Stop capturing buffers.
-    public func stop() {
+    public func stopCapture() {
         core.stop()
     }
 }

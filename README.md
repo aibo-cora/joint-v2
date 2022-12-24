@@ -1,6 +1,7 @@
 <h2>Joint - Customizable Video Streaming Package.</h2> 
 
 This package is meant to give developers control over data in applications with a video over internet component.
+<br><i>Updated for v 0.3</i>
 
 <h5>Examples:</h5>
 <ul>
@@ -62,15 +63,15 @@ Observe the <code>status</code> property of the object to make sure the client i
 <br><br>
 
 <b>3. Starting session</b>
-Once connected, you can start the session:
+Starting the capture session to feed the camera preview view:
 ```swift
-  public func start() { }
+  public func startSession() { }
 ```
 It is important to note that starting a session is possible without first connecting to a server. If this is the case, the framework will begin constructing binary data, but it will not be transported.
-<br>Connecting to a server will begin the transport.
+<br>Connect to a server and enable transport using `transport(enable: true)` to start sending data.
 
 <br><br><br>
-<code>disconnect(), stop()</code> are available respectively.
+<code>disconnect(), stopSession()</code> are available respectively.
   
   
   
