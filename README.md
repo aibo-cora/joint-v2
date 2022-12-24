@@ -1,7 +1,7 @@
 <h2>Joint - Customizable Video Streaming Package.</h2> 
 
 This package is meant to give developers control over data in applications with a video over internet component.
-<br><i>Updated for v 0.3</i>
+<br><i>Updated for v 0.3.0</i>
 
 <h5>Examples:</h5>
 <ul>
