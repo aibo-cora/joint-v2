@@ -2,7 +2,7 @@
 
 This package is meant to give developers control over data in applications with a video over internet component.
 
-<br><i>Updated for v 0.4</i>
+<br><i>Updated for v 0.4.0</i>
 
 <h5>Examples:</h5>
 <ul>
@@ -68,12 +68,14 @@ Starting the capture session to feed the camera preview view:
 ```swift
     public func startCapture() { }
 ```
-<i>Important</b>Starting a session is possible without first connecting to a server. If this is the case, the framework will begin constructing binary data, but it will not be transported.
+<i>Important</i> Starting a session is possible without first connecting to a server. If this is the case, the framework will begin constructing binary data, but it will not be transported.
 
 <br><br>
 
 <b>4. Broadcast stream channel</b>
-Publish a message, containing a unique ID source string, to the general channel to let users know that your live stream has been started. <i>Important</i> Make sure the clients, connecting to the server after a 
+Publish a message, containing a unique ID source string, to the general channel to let users know that your live stream has been started. <br><br>
+
+<i>Important</i> Make sure the clients, connecting to the server after a 
 stream started, have up to date information about active streams. The clients that had an active stream on the list should be updated when the stream ends.
 
 <br><br>
