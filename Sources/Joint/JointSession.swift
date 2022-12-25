@@ -63,6 +63,7 @@ public final class JointSession: ObservableObject {
             .store(in: &subscriptions)
     }
     // MARK: Transport
+    
     /// Connect to the server and start the transport pipelines.
     public func connect() {
         transport.connect()
@@ -82,11 +83,16 @@ public final class JointSession: ObservableObject {
         transporting = enabled
     }
     
+    /// Publish a message.
+    /// - Parameter message: Message containing source and data.
+    public func publish(message: Message) {
+        transport.publish(message: message)
+    }
+    
     /// Disconnect from the server and close the session.
     public func disconnect() {
         transport.disconnect()
     }
-    
     // MARK: Core
     
     /// Start capturing video and audio buffers.
