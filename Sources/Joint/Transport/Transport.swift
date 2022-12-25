@@ -40,12 +40,6 @@ public enum TransportStatus {
     case disconnected, connected, failed
 }
 
-/// The source and contents of a message being transported.
-public struct Message: Payload {
-    var source: String
-    var data: Data
-}
-
 final class Transport: ObservableObject {
     @Published var receiving: Message = .init(source: "", data: Data())
     @Published var error: TransportError = .none

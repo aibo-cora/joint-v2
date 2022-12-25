@@ -1,7 +1,8 @@
 <h2>Joint - Customizable Video Streaming Package.</h2> 
 
 This package is meant to give developers control over data in applications with a video over internet component.
-<br><i>Updated for v 0.3.0</i>
+
+<br><i>Updated for v 0.4</i>
 
 <h5>Examples:</h5>
 <ul>
@@ -52,11 +53,11 @@ When you setup a type that conforms to the <code>Server</code> protocol, you wil
 
 <br><br>
 
-<b>2. Connecting for a server</b>
+<b>2. Connecting to a server</b>
 <br><br>
 After initializing a <code>JointSession</code> object, you are able to connect to the server using:
 ```swift
-  public func connect() { }
+    public func connect() { }
 ```
 Observe the <code>status</code> property of the object to make sure the client is connected to the server.
 
@@ -65,13 +66,46 @@ Observe the <code>status</code> property of the object to make sure the client i
 <b>3. Starting session</b>
 Starting the capture session to feed the camera preview view:
 ```swift
-  public func startSession() { }
+    public func startCapture() { }
 ```
-It is important to note that starting a session is possible without first connecting to a server. If this is the case, the framework will begin constructing binary data, but it will not be transported.
-<br>Connect to a server and enable transport using `transport(enable: true)` to start sending data.
+<i>Important</b>Starting a session is possible without first connecting to a server. If this is the case, the framework will begin constructing binary data, but it will not be transported.
 
-<br><br><br>
-<code>disconnect(), stopSession()</code> are available respectively.
+<br><br>
+
+<b>4. Broadcast stream channel</b>
+Publish a message, containing a unique ID source string, to the general channel to let users know that your live stream has been started. <i>Important</i> Make sure the clients, connecting to the server after a 
+stream started, have up to date information about active streams. The clients that had an active stream on the list should be updated when the stream ends.
+
+<br><br>
+
+<b>5. Start transmitting data</b>
+```swift
+    public func transport(enabled: Bool) { }
+```
+This toggles the flag to start the flow of data to the server.
+
+<br><br>
+
+<b>6. Receive data</b>
+```swift
+    /// Update channel list.
+    /// - Parameters:
+    ///   - subscribeTo: Channels to subscribe to.
+    ///   - unsubscribeFrom: Channels to unsubscribe from.
+    public func updateLinks(subscribeTo: [String], unsubscribeFrom: [String]) { }
+```
+To start and stop receiving data, use this function to update the list of channels the client is subscribed to.
+
+<br><br>
+
+<b>7. Ending the session</b>
+```swift
+    public func stopCapture() { }
+```
+...
+```swift
+    public func disconnect() { }
+```
   
   
   
