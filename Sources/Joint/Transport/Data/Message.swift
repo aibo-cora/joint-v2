@@ -15,6 +15,11 @@ public protocol Payload {
 
 /// The source and contents of a message being transported.
 public struct Message: Payload {
+    public init(source: String, data: Data) {
+        self.source = source
+        self.data = data
+    }
+    
     public var source: String
     public var data: Data
 }
