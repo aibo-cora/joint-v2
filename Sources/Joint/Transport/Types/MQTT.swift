@@ -42,9 +42,9 @@ extension Transport {
         }
         
         func publish(message: Message) {
-            session?.publishData(message.data, onTopic: message.source, retain: false, qos: self.qos, publishHandler: { error in
+            session?.publishData(message.payload, onTopic: message.channel, retain: false, qos: self.qos, publishHandler: { error in
                 if let error {
-                    self.error.send(.publishing(message.source, error, .critial))
+                    self.error.send(.publishing(message.channel, error, .critial))
                 }
             })
         }
@@ -107,7 +107,7 @@ extension Transport {
         }
         
         func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
-            receiving.send(Message(source: topic, data: data))
+            receiving.send(Message(for: topic, carrying: data))
         }
     }
 }

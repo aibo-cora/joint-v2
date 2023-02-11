@@ -41,7 +41,7 @@ public enum TransportStatus {
 }
 
 final class Transport: ObservableObject {
-    @Published var receiving: Message = .init(source: "", data: Data())
+    @Published var receiving: Message = .init(for: "", carrying: Data())
     @Published var error: TransportError = .none
     @Published var status: TransportStatus = .disconnected
     
