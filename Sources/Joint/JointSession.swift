@@ -33,7 +33,7 @@ public final class JointSession: ObservableObject {
         core.$data
             .sink { data in
                 if self.transporting {
-                    let message = Message(source: source, data: data)
+                    let message = Message(for: source, carrying: data)
                     
                     self.transport.publish(message: message)
                     self.outgoing = message
