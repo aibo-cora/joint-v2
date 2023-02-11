@@ -9,17 +9,17 @@ import Foundation
 
 /// Message description.
 public protocol Payload {
-    var source: String { get }
-    var data: Data { get }
+    var channel: String { get }
+    var payload: Data { get }
 }
 
-/// The source and contents of a message being transported.
+/// Intended recipient and contents of a message being transported.
 public struct Message: Payload {
-    public init(source: String, data: Data) {
-        self.source = source
-        self.data = data
+    public init(for channel: String, carrying payload: Data) {
+        self.channel = channel
+        self.payload = payload
     }
     
-    public var source: String
-    public var data: Data
+    public var channel: String
+    public var payload: Data
 }
